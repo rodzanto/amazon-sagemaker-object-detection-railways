@@ -1,4 +1,6 @@
-## Object Detection with Detectron2 on Amazon SageMaker
+## Object Detection for Railway Traffic Lights with Detectron2 on Amazon SageMaker
+
+**NOTE:** This is an adaptation of the example [Detectron2 on SKU-110K dataset](https://github.com/aws-samples/amazon-sagemaker-pytorch-detectron2), now applied to the use case of traffic lights detection in railways with the FRSign dataset.
 
 ### Overview
 
@@ -11,11 +13,12 @@ This repository shows how to do the following:
 * Register a dataset in Detectron2 catalog from annotations in augmented manifest files. Augmented manifest file is the output format of [Amazon SageMaker Ground Truth](https://aws.amazon.com/sagemaker/groundtruth/) annotation jobs.
 * Run a SageMaker Training job to finetune pre-trained model weights on a custom dataset.
 * Configure SageMaker Hyperparameter Optimization jobs to finetune hyper-parameters.
-* Run a SageMaker Batch Transform job to predict bouding boxes in a large chunk of images.
+* Run a SageMaker Batch Transform job to predict bounding boxes in a large chunk of images.
+* Deploy a SageMaker Endpoint to predict bounding boxes in real-time for any railway image.
 
 ### Get Started
 
-Create a SageMaker notebook instance with an EBS volume equal or bigger than 30 GB and add the following lines to **start notebook** section of your life cycle configuration:
+Create a SageMaker notebook instance with an EBS volume equal or bigger than 700 GB, and add the following lines to **start notebook** section of your life cycle configuration:
 
 ```
 service docker stop
@@ -28,15 +31,22 @@ This ensures that docker builds images to a folder that is mounted on EBS. Once 
 
 ```
 cd SageMaker
-git clone https://github.com/aws-samples/amazon-sagemaker-pytorch-detectron2.git
-cd amazon-sagemaker-pytorch-detectron2
+git clone https://github.com/rodzanto/amazon-sagemaker-pytorch-detectron2-frsign.git
+cd amazon-sagemaker-pytorch-detectron2-frsign
 ```
-Open the [notebook](d2_custom_sku110k.ipynb). Follow the instruction in the notebook and use `conda_pytorch_p36` as kernel to execute code cells.
 
-You can also test the content in this repository on an EC2 that is running the [AWS Deep Learning AMI](https://docs.aws.amazon.com/dlami/latest/devguide/what-is-dlami.html).
+Open and run the following notebooks in order:
+1. [FRSign d2 notebook](frsign_doc_d2.ipynb). Follow the instruction in the notebook and use `conda_python3` as kernel to execute code cells. This notebook will guide you through the process for downloading the open dataset FRSign, and process a sample from it for using in our fine-tuning in the following notebooks.
+2. [d2 sku110k notebook](d2_custom_sku110k.ipynb). Follow the instruction in the notebook and use `conda_pytorch_p36` as kernel to execute code cells. This notebook will guide you through the process for building a pushing the required Docker images for using Detectron2 with Amazon SageMaker. Optionally, you can fine-tune Detectron2 with the retail dataset sku110k for detecting products in supermarket shelves.
+3. [d2 FRSign notebook](d2_custom_FRSign.ipynb). Follow the instruction in the notebook and use `conda_pytorch_p36` as kernel to execute code cells. This notebook will guide you through the process for fine-tuning Detectron2 with SageMaker with the sample dataset from FRSign, for detecting traffic lights in railways.
+
+*You can also test the content in this repository on an EC2 that is running the [AWS Deep Learning AMI](https://docs.aws.amazon.com/dlami/latest/devguide/what-is-dlami.html).*
+
 ### Instructions
 
-You will use a Detectron2 object detection model to recognize objects in densely packed scenes. You will use the SKU-110k dataset for this task. Be aware that the authors of the dataset provided it solely for academic and non-commercial purposes. Please refer to the following [paper](https://arxiv.org/abs/1904.00853) for further details on the dataset:
+You will use a Detectron2 object detection model to recognize objects in densely packed scenes. You will use the SKU-110k and FRSign datasets for this task. Be aware that the authors of the dataset provided it solely for academic and non-commercial purposes.
+
+Please refer to the following [paper](https://arxiv.org/abs/1904.00853) for further details on the SKU-110k dataset:
 
 ```
 @inproceedings{goldman2019dense,
@@ -47,7 +57,25 @@ You will use a Detectron2 object detection model to recognize objects in densely
 }
 ```
 
-If you want details on the code used for [training](container_training/sku-110k) and [prediction](container_serving), please refer to code documentation in the respective source directories.
+Please refer to the following [paper](https://arxiv.org/abs/2002.05665) for further details on the FRSign dataset:
+
+```
+@ARTICLE{2020arXiv200205665H,
+       author = {{Harb}, Jeanine and {R{\'e}b{\'e}na}, Nicolas and {Chosidow}, Rapha{\"e}l and {Roblin}, Gr{\'e}goire and {Potarusov}, Roman and {Hajri}, Hatem},
+        title = "{FRSign: A Large-Scale Traffic Light Dataset for Autonomous Trains}",
+      journal = {arXiv e-prints},
+     keywords = {Computer Science - Computers and Society, Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning},
+         year = "2020",
+        month = "Feb",
+          eid = {arXiv:2002.05665},
+        pages = {arXiv:2002.05665},
+archivePrefix = {arXiv},
+       eprint = {2002.05665},
+ primaryClass = {cs.CY},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2020arXiv200205665H},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+```
 
 ## Security
 
