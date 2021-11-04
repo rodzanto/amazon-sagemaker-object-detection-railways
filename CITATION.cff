@@ -1,0 +1,15 @@
+@ARTICLE{2020arXiv200205665H,
+       author = {{Harb}, Jeanine and {R{\'e}b{\'e}na}, Nicolas and {Chosidow}, Rapha{\"e}l and {Roblin}, Gr{\'e}goire and {Potarusov}, Roman and {Hajri}, Hatem},
+        title = "{FRSign: A Large-Scale Traffic Light Dataset for Autonomous Trains}",
+      journal = {arXiv e-prints},
+     keywords = {Computer Science - Computers and Society, Computer Science - Computer Vision and Pattern Recognition, Computer Science - Machine Learning},
+         year = "2020",
+        month = "Feb",
+          eid = {arXiv:2002.05665},
+        pages = {arXiv:2002.05665},
+archivePrefix = {arXiv},
+       eprint = {2002.05665},
+ primaryClass = {cs.CY},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2020arXiv200205665H},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
