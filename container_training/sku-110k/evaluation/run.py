@@ -1,1 +1,0 @@
-"""Run COCO evaluation with custom # of max detections"""

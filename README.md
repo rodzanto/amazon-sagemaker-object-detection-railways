@@ -1,4 +1,4 @@
-## Object Detection for Railway Traffic Lights with Detectron2 on Amazon SageMaker
+## Object Detection for Railway Traffic Lights with Amazon SageMaker
 
 **NOTE:** This is an adaptation of the example [Detectron2 on SKU-110K dataset](https://github.com/aws-samples/amazon-sagemaker-pytorch-detectron2), now applied to the use case of traffic lights detection in railways with the FRSign dataset.
 
@@ -36,9 +36,10 @@ cd amazon-sagemaker-pytorch-detectron2-frsign
 ```
 
 Open and run the following notebooks in order:
-1. [FRSign d2 notebook](frsign_doc_d2.ipynb). Follow the instruction in the notebook and use `conda_python3` as kernel to execute code cells. This notebook will guide you through the process for downloading the open dataset FRSign, and process a sample from it for using in our fine-tuning in the following notebooks.
-2. [d2 sku110k notebook](d2_custom_sku110k.ipynb). Follow the instruction in the notebook and use `conda_pytorch_p36` as kernel to execute code cells. This notebook will guide you through the process for building a pushing the required Docker images for using Detectron2 with Amazon SageMaker. Optionally, you can fine-tune Detectron2 with the retail dataset sku110k for detecting products in supermarket shelves.
-3. [d2 FRSign notebook](d2_custom_FRSign.ipynb). Follow the instruction in the notebook and use `conda_python3` as kernel to execute code cells. This notebook will guide you through the process for fine-tuning Detectron2 with SageMaker with the sample dataset from FRSign, for detecting traffic lights in railways.
+1. [FRSign d2 notebook](./amazon-sagemaker-pytorch-detectron2/frsign_doc_d2.ipynb). Follow the instruction in the notebook and use `conda_python3` as kernel to execute code cells. This notebook will guide you through the process for downloading the open dataset FRSign, and process a sample from it for using in our fine-tuning in the following notebooks.
+2. [d2 sku110k notebook](./amazon-sagemaker-pytorch-detectron2/d2_custom_sku110k.ipynb). Follow the instruction in the notebook and use `conda_pytorch_p36` as kernel to execute code cells. This notebook will guide you through the process for building a pushing the required Docker images for using Detectron2 with Amazon SageMaker. Optionally, you can fine-tune Detectron2 with the retail dataset sku110k for detecting products in supermarket shelves.
+3. [d2 FRSign notebook](./amazon-sagemaker-pytorch-detectron2/d2_custom_FRSign.ipynb). Follow the instruction in the notebook and use `conda_python3` as kernel to execute code cells. This notebook will guide you through the process for fine-tuning Detectron2 (PyTorch) with SageMaker with the sample dataset from FRSign, for detecting traffic lights in railways.
+4. [SSD FRSign notebook](./amazon-sagemaker-mxnet-gluoncv/Lab1_object_detection.ipynb). Follow the instruction in the notebook and use `conda_python3` as kernel to execute code cells. This notebook will guide you through the process for fine-tuning SSD Mobilenet (MXNet GluonCV) with SageMaker with the sample dataset from FRSign, for detecting traffic lights in railways.
 
 *You can also test the content in this repository on an EC2 that is running the [AWS Deep Learning AMI](https://docs.aws.amazon.com/dlami/latest/devguide/what-is-dlami.html).*
 

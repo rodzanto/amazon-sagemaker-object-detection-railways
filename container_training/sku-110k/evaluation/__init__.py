@@ -1,1 +1,0 @@
-"""Coco Style Evaluation"""
