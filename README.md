@@ -26,7 +26,7 @@ It contains three labs that will help you to achieve the following:
     - Apply transfer learning with pre-trained Object Detection and Object Tracking models.
     - Configure SageMaker Hyperparameter Optimization jobs.
     - Generate real-time predictions for any railway image using SageMaker Endpoints or batch predictions with SageMaker Transform Jobs.
-- Use Object Detection models from Detectron2's model zoo and GluonCV models on the traffic lights detection use case.
+- Use Object Detection models from Detectron2 and GluonCV models zoo on the traffic lights detection use case.
 - Use Object Tracking models from GluonCV.
 - Build Detectron2 Docker images and push them to [Amazon ECR](https://aws.amazon.com/ecr/) to run training and inference jobs on Amazon SageMaker.
 
