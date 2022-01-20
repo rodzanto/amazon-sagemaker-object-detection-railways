@@ -4,12 +4,12 @@
 2. [Introduction](#Introduction)
 3. [Labs](#Labs)
     1. [Setup](#Setup)
-        1. [Prequisites](#Prequisites)
+        1. [Prerequisites](#Prerequisites)
         2. [Start notebook](#Start-notebook)
     2. [LAB 1: Object detection with Detectron2](#LAB-1-Object-detection-with-Detectron2)
     3. [LAB 2: Object detection with GluonCV](#LAB-2-Object-detection-with-GluonCV)
     4. [LAB 3: Object tracking with GluonCV](#LAB-3-Object-tracking-with-GluonCV)
-4. [MLOps](#Next-Steps-MLOps)
+4. [Next Steps: MLOps](#Next-Steps-MLOps)
 5. [Instructions](#Instructions)
 6. [Security](#Security)
 7. [License](#License)
@@ -65,7 +65,7 @@ These three steps are represented by the following diagram:
 
 ### Setup
 
-#### Prequisites
+#### Prerequisites
 
 To successfully execute the following labs, you will need:
 
