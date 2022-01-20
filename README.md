@@ -10,7 +10,7 @@
     3. [LAB 2: Object detection with GluonCV](#LAB-2-Object-detection-with-GluonCV)
     4. [LAB 3: Object tracking with GluonCV](#LAB-3-Object-tracking-with-GluonCV)
 4. [Next Steps: MLOps](#Next-Steps-MLOps)
-5. [Instructions](#Instructions)
+5. [Copyright](#Copyright)
 6. [Security](#Security)
 7. [License](#License)
 
@@ -24,8 +24,8 @@ It contains three labs that will help you to achieve the following:
 - Follow the workflow for creating a machine learning model through:
     - Prepare the necessary dataset for the model training.
     - Apply transfer learning with pre-trained Object Detection and Object Tracking models.
-    - Configure SageMaker Hyperparameter Optimization jobs.
-    - Generate real-time predictions for any railway image using SageMaker Endpoints or batch predictions with SageMaker Transform Jobs.
+    - Configure Amazon SageMaker Hyperparameter Optimization jobs.
+    - Generate real-time predictions for any railway image using Amazon SageMaker Endpoints or batch predictions with Amazon SageMaker Transform Jobs.
 - Use Object Detection models from Detectron2 and GluonCV models zoo on the traffic lights detection use case.
 - Use Object Tracking models from GluonCV.
 - Build Detectron2 Docker images and push them to [Amazon ECR](https://aws.amazon.com/ecr/) to run training and inference jobs on Amazon SageMaker.
@@ -38,7 +38,7 @@ The **Deep Learning process** that will be carried out through the labs has thre
  
 To perform the training of a Deep Learning model, it is important to have a large, high-quality and labeled dataset. The data labeling process can be done using [Amazon SageMaker Ground Truth](https://aws.amazon.com/sagemaker/groundtruth/) through its graphical interface or programmatically in the jupyter notebook. You can see SageMaker Ground Truth [labeling jobs examples](https://github.com/aws/amazon-sagemaker-examples/tree/master/ground_truth_labeling_jobs) on the AWS Github.
 
-The final results of the labeling job are the frames extracted from the videos (JPEG) and an output data file known as **augmented manifest file** which contains label data for each object that is sent to the labeling job and metadata about the label assigned to data objects. See [SageMaker documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-data-output.html#sms-output-box) for specification on bounding box annotations.
+The final results of the labeling job are the frames extracted from the videos (JPEG) and an output data file known as **augmented manifest file** which contains label data for each object that is sent to the labeling job and metadata about the label assigned to data objects. See [Amazon SageMaker documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-data-output.html#sms-output-box) for specification on bounding box annotations.
 
 
 **2. Model training**
@@ -52,9 +52,9 @@ As a result of the training job, a trained artifact model is obtained with the n
 
 Once the trained artifact model has been generated, it can be deployed to get predictions in a hosting service or by a batch transformation. 
     
-- **SageMaker hosting service**: allows to get one prediction in real time by hosting a persitent endpoint in which you can send a frame inference (e.g. JPEG) and get a bounding box coordinates for each class and instance detected.
+- **Amazon SageMaker hosting service**: allows to get one prediction in real time by hosting a persitent endpoint in which you can send a frame inference (e.g. JPEG) and get a bounding box coordinates for each class and instance detected.
     
-- **SageMaker batch transformation**: allows to run a batch inference job asynchronously to get predictions based on a dataset.
+- **Amazon SageMaker batch transformation**: allows to run a batch inference job asynchronously to get predictions based on a dataset.
 
 These three steps are represented by the following diagram:
 
@@ -75,7 +75,7 @@ To successfully execute the following labs, you will need:
 
 #### Start notebook
 
-Create a SageMaker notebook instance with an EBS volume equal or bigger than 700 GB, and add the following lines to **start notebook** section of your life cycle configuration:
+Create an Amazon SageMaker notebook instance with an EBS volume equal or bigger than 700 GB, and add the following lines to **start notebook** section of your life cycle configuration:
 
 ```
 service docker stop
@@ -129,19 +129,24 @@ Once the dataset is prepared, the training will start through the transfer learn
 
 1. Building the Training Container
 
-     To train the model, a Docker container will be created. This container will include all runtime dependencies and the [entry point script](/amazon-sagemaker-pytorch-detectron2/container_training/sku-110k/training.py) (needed to start the model training). To achieve this, follow the instructions in the [Detectron2 on sku110k dataset notebook](./amazon-sagemaker-pytorch-detectron2/d2_custom_sku110k.ipynb) and use `conda_pytorch_p36` as kernel to execute code cells related to `Building the Training Container`. This notebook will guide you through the process for building the training container and push it to Amazon Elastic Container Registry ("ECR").
+     To train the model, a training container with the runtime dependencies and the [entry point script](/amazon-sagemaker-pytorch-detectron2/container_training/sku-110k/training.py) must be created. 
+     
+     For that, follow the instructions in the [Detectron2 on FRSign dataset notebook](./amazon-sagemaker-pytorch-detectron2/d2_custom_FRSign.ipynb) and use `conda_pytorch_p36` as kernel to execute code cells related to the `Setup part` and the `Building the Training Container part`. 
+     
+     This will create a Docker container with an AWS-authored Pytorch image and then, deploy it to Amazon Elastic Container Registry ("ECR").
 
-2. Configure SageMaker training job
 
-    Follow the instructions in the [Detectron2 on FRSign dataset notebook](./amazon-sagemaker-pytorch-detectron2/d2_custom_FRSign.ipynb) and use `conda_python3` as kernel to execute code cells. This is the main notebook of this lab and it will guide you through the process for fine-tuning Detectron2 (PyTorch) with SageMaker with the sample dataset from FRSign (prepared in the first step), for detecting traffic lights in railways. 
+2. Configure Amazon SageMaker Training job
+
+    Follow the instructions in the [Detectron2 on FRSign dataset notebook](./amazon-sagemaker-pytorch-detectron2/d2_custom_FRSign.ipynb) and use `conda_python3` as kernel to execute code cells related to the `Training using Amazon SageMaker`. 
     
-    This notebook will allow you to do the following:
+    When you run the notebook, the following will have been done:
     
     - Define the parameters to indicate where the dataset is stored (train, test and validations group data).
     - Define the container configuration.
     - Define the model hyperparameters .
     - Define the training job parameters.
-    - Create the Estimator Object (also called as Sagemaker Training job object), which can start the training. 
+    - Create the Estimator Object (also called as Amazon Sagemaker Training job object), which can start the training. 
 
 3. Start the training
 
@@ -167,36 +172,39 @@ Besides, this lab serves as a comparison exercise between the model generated fr
 To execute this lab, complete the following steps:
 
 #### **Dataset Preparation**
-The dataset preparation model its the same as the carried out in the LAB 1.
+The dataset preparation model is the same as the carried out in the LAB 1.
 
-> If you have not checked that dataset preparation process, visit the first lab.
+> If you have not checked that dataset preparation process, you can visit the first lab.
 
 #### **Model Training**
-Once the dataset is prepared, the training will start through the transfer learning on the pre-trained object detection model.
+Once the dataset is prepared, the training will start through the transfer learning on the pre-trained object detection model, which will replace the last layer of the pre-trained network with a new output layer that predicts the railway traffic lights. 
 
-1. To train the model, the [entry point script](/amazon-sagemaker-mxnet-gluoncv/entry_point/gluoncv_detect_ssd.py) needs to be executed. Follow the instructions in the [SSD FRSign notebook](./amazon-sagemaker-mxnet-gluoncv/Lab1_object_detection.ipynb) and use `conda_python3` as kernel to execute code cells. This notebook will guide you through the process for fine-tuning SSD Mobilenet (MXNet GluonCV) with SageMaker with the sample dataset from FRSign, for detecting traffic lights in railways.
 
-The notebook will show you how to create the Estimator Object with Amazon SageMaker Python SDK and how to init the training job with the `fit` function.
+1. To train the model, the training container must be created. However, unlike the first lab, in which the training container was built, this one will use an [AWS Deep Learning Container Image](https://aws.amazon.com/es/machine-learning/containers/), which is a pre-install Docket image that allows us to skip the complex process of creating the container environment from scratch. 
 
-This training phase will replace the last layer of the pre-trained network with a new output layer that predicts railway traffic lights. 
+    For that, follow the instructions in the [Lab 2 - Object detection with GlounCV notebook](./amazon-sagemaker-mxnet-gluoncv/Lab2_object_detection-glounCV.ipynb) and use `conda_python3` as kernel to execute code cells. This will create the Estimator Object with the AWS Deep Learning Container Image configuration and start the process to fine-tuning SSD Mobilenet (MXNet GluonCV) with Amazon SageMaker.
+
+    The container will have the [entry point script](./amazon-sagemaker-mxnet-gluoncv/entry_point/gluoncv_detect_ssd.py), which needs to be executed to start the model training.
+
+    >For other purposes, visit the [Available Deep Learning Containers Images](https://github.com/aws/deep-learning-containers/blob/master/available_images.md)
 
 
 #### **Model Deployment**
 
-Execute the code cells of the SSD FRSign notebook related to the Deployment and inference phase. This will deploy a SageMaker Endpoint to generate real-time predictions on new images.
+Execute the code cells of the Lab 2 - Object detection with GlounCV notebook related to the Deployment and inference phase. This will deploy an Amazon SageMaker Endpoint to generate real-time predictions on new images.
      
 #### Detectron2 VS GluonCV 
 
 After running both labs (LAB #1 and LAB #2), it is possible to observe that in some cases the model of the second lab could not detect relevant objects, while LAB #1, using the Detectron2 model, the results were more accurate.
 
-> To improve the predictions of the second model, it would be necessary to add more training time or make an adjustment to the selected dataset.
+> To improve the predictions of the second model, you could add more training time or make adjustments to the selected dataset.
 
 ### **LAB 3: Object tracking with GluonCV** 
 
 #### **Overview**
 This third lab will track an object using the GluonCV's SiamRPN model through the transfern learning process. [See an example of the expected result](./sample_media/atocha_cut.mp4)
 
-To run the lab, follow the instructions in the [SSD FRSign notebook related](./amazon-sagemaker-mxnet-gluoncv/Lab1_object_detection.ipynb) to the object tracking process and use `conda_python3` as kernel to execute code cells. The notebook will guide you to the following steps:
+To run the lab, follow the instructions in the [Lab 3 - Object tracking with GlounCV notebook](./amazon-sagemaker-mxnet-gluoncv/Lab3_object_tracking-glounCV.ipynb) to the object tracking process and use `conda_python3` as kernel to execute code cells. The notebook will guide you to the following steps:
 
 - Take an example video and specify the coordinates of the object of interest in the first frame of the video (this is needed by the model). The coordinates show the region of interest where to track, and they are in the format of (min_x, min_y, width, height). 
 
@@ -204,18 +212,17 @@ To run the lab, follow the instructions in the [SSD FRSign notebook related](./a
 - Load a pre-trained object tracking model from a model zoo through a script provided by GlounCv.
 - Performn real-time inferences with sample frames to the pre-trained model.
 
-
 The result will be a set of frames with the object of interest indicated inside a bounding box. Here is an example of one of the result boxes:
 
 ![Lab 3 - Result](./images/Lab1_2_1-Result.jpg)
-
 
 ## Next Steps: MLOps
 
 Once you successfully deploy your ML models, you could leverage [Amazon SageMaker for MLOps](https://github.com/aws/amazon-sagemaker-examples/blob/master/sagemaker-pipelines/tabular/customizing_build_train_deploy_project/sagemaker-pipelines-customized-project.ipynb) to create a CI/CD system that automate the process to build, train, and deploy models.
 
 
-## Instructions
+
+## Copyright
 
 Be aware that the authors of the dataset provided it solely for academic and non-commercial purposes.
 
